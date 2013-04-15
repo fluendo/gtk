@@ -237,6 +237,16 @@ find_module (const gchar *name)
       module_name = g_module_build_path (NULL, name);
     }
 
+  /* overlay-scrollbar module that uses Ubuntu specific GTK
+   * API on Ubuntu... and thus crashes everything
+   * that ever tries to use GIO.
+   */
+  if (g_str_has_suffix (module_name, "liboverlay-scrollbar.so"))
+    {
+      g_free (module_name);
+      return NULL;
+    }
+
   module = g_module_open (module_name, G_MODULE_BIND_LOCAL | G_MODULE_BIND_LAZY);
 
   if (_gtk_module_has_mixed_deps (module))
