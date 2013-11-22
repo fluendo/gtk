@@ -2973,6 +2973,7 @@ gdk_window_fullscreen (GdkWindow *window)
   GdkWindowObject *private = (GdkWindowObject *) window;
   GdkWindowImplQuartz *impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
   NSRect frame;
+  gint ox, oy;
 
   if (GDK_WINDOW_DESTROYED (window) ||
       !WINDOW_IS_TOPLEVEL (window))
@@ -2998,8 +2999,11 @@ gdk_window_fullscreen (GdkWindow *window)
       gdk_window_set_decorations (window, 0);
 
       frame = [[impl->toplevel screen] frame];
+       _gdk_quartz_window_xy_to_gdk_xy (frame.origin.x,
+                                        frame.origin.y + frame.size.height,
+                                        &ox, &oy);
       move_resize_window_internal (window,
-                                   0, 0, 
+                                   ox, oy,
                                    frame.size.width, frame.size.height);
       [impl->toplevel setContentSize:frame.size];
       [impl->toplevel makeKeyAndOrderFront:impl->toplevel];
