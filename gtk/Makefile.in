@@ -5647,6 +5647,7 @@ distclean-local:
 @OS_WIN32_TRUE@	 echo '       </security>' ; \
 @OS_WIN32_TRUE@	 echo '  </trustInfo>' ; \
 @OS_WIN32_TRUE@	 echo '</assembly>' ) >$@
+@OS_WIN32_TRUE@	 mkdir -p .libs && cp $@ .libs/
 
 .PHONY: files test test-debug
 
