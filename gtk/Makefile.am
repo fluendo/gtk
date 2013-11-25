@@ -1121,6 +1121,7 @@ $(GTK_UPDATE_ICON_CACHE_MANIFEST):
 	 echo '       </security>' ; \
 	 echo '  </trustInfo>' ; \
 	 echo '</assembly>' ) >$@
+	mkdir -p .libs && cp $@ .libs/
 
 $(GTK_UPDATE_ICON_CACHE_RC):
 	(echo 'CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST '$(GTK_UPDATE_ICON_CACHE_MANIFEST)) >$@
@@ -1442,7 +1443,7 @@ if CROSS_COMPILING
 gtk_update_icon_cache_program = $(GTK_UPDATE_ICON_CACHE)
 else
 gtk_update_icon_cache_program =							\
-	   ./gtk-update-icon-cache
+	   .libs/gtk-update-icon-cache
 endif
 
 gtkbuiltincache.h: @REBUILD@ stamp-icons
