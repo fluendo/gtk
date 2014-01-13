@@ -1442,8 +1442,13 @@ stamp-icons: $(STOCK_ICONS)
 if CROSS_COMPILING
 gtk_update_icon_cache_program = $(GTK_UPDATE_ICON_CACHE)
 else
-gtk_update_icon_cache_program =							\
+if OS_WIN32
+gtk_update_icon_cache_program = \
 	   .libs/gtk-update-icon-cache
+else
+gtk_update_icon_cache_program = \
+	   ./gtk-update-icon-cache
+endif
 endif
 
 gtkbuiltincache.h: @REBUILD@ stamp-icons
