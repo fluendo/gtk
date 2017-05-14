@@ -7425,7 +7425,8 @@ gtk_widget_render_icon (GtkWidget      *widget,
                         const gchar    *detail)
 {
   GtkIconSet *icon_set;
-  GdkPixbuf *retval;
+  GdkPixbuf *retval, *variant;
+  gdouble scale = 2;
   
   g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
   g_return_val_if_fail (stock_id != NULL, NULL);
@@ -7446,6 +7447,17 @@ gtk_widget_render_icon (GtkWidget      *widget,
                                      widget,
                                      detail);
 
+  variant = gtk_icon_set_render_icon_scaled (icon_set, widget->style,
+                                             gtk_widget_get_direction (widget),
+                                             gtk_widget_get_state (widget),
+                                             size, widget, detail, &scale);
+
+  if (variant)
+    g_object_set_data_full (G_OBJECT (retval),
+                            "gdk-pixbuf-2x-variant",
+                            variant,
+                            (GDestroyNotify) g_object_unref);
+
   return retval;
 }
 
@@ -7456,8 +7468,9 @@ gtk_widget_render_icon_scaled (GtkWidget      *widget,
 			       const gchar    *detail,
 			       gdouble        *real_scale)
 {
+  GdkPixbuf *retval, *variant;
   GtkIconSet *icon_set;
-  GdkPixbuf *retval;
+  gdouble scale = 2;
 
   g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
   g_return_val_if_fail (stock_id != NULL, NULL);
