@@ -7425,7 +7425,8 @@ gtk_widget_render_icon (GtkWidget      *widget,
                         const gchar    *detail)
 {
   GtkIconSet *icon_set;
-  GdkPixbuf *retval;
+  GdkPixbuf *retval, *variant;
+  gdouble scale = 2;
   
   g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
   g_return_val_if_fail (stock_id != NULL, NULL);
@@ -7446,7 +7447,46 @@ gtk_widget_render_icon (GtkWidget      *widget,
                                      widget,
                                      detail);
 
+  variant = gtk_icon_set_render_icon_scaled (icon_set, widget->style,
+                                             gtk_widget_get_direction (widget),
+                                             gtk_widget_get_state (widget),
+                                             size, widget, detail, &scale);
+
+  if (variant)
+    g_object_set_data_full (G_OBJECT (retval),
+                            "gdk-pixbuf-2x-variant",
+                            variant,
+                            (GDestroyNotify) g_object_unref);
+
   return retval;
+}
+
+GdkPixbuf*
+gtk_widget_render_icon_scaled (GtkWidget      *widget,
+			       const gchar    *stock_id,
+			       GtkIconSize     size,
+			       const gchar    *detail,
+			       gdouble        *real_scale)
+{
+  GdkPixbuf *retval, *variant;
+  GtkIconSet *icon_set;
+  gdouble scale = 2;
+
+  g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
+  g_return_val_if_fail (stock_id != NULL, NULL);
+  g_return_val_if_fail (size > GTK_ICON_SIZE_INVALID || size == -1, NULL);
+
+  gtk_widget_ensure_style (widget);
+
+  icon_set = gtk_style_lookup_icon_set (widget->style, stock_id);
+
+  if (icon_set == NULL)
+    return NULL;
+
+  return gtk_icon_set_render_icon_scaled (icon_set, widget->style,
+                                          gtk_widget_get_direction (widget),
+                                          gtk_widget_get_state (widget),
+                                          size, widget, detail, real_scale);
 }
 
 /**
@@ -7658,6 +7698,26 @@ gtk_widget_has_screen (GtkWidget *widget)
   g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
   return (gtk_widget_get_screen_unchecked (widget) != NULL);
+}
+
+gdouble
+gtk_widget_get_scale_factor (GtkWidget *widget)
+{
+  GtkWidget *toplevel;
+
+  g_return_val_if_fail (GTK_IS_WIDGET (widget), 1.0);
+
+  toplevel = gtk_widget_get_toplevel (widget);
+  if (toplevel && toplevel != widget)
+    return gtk_widget_get_scale_factor (toplevel);
+
+  if (widget->window)
+    return gdk_window_get_scale_factor (widget->window);
+
+  /* else fall back to something that is more likely to be right than
+   * just returning 1.0:
+   */
+  return gdk_screen_get_monitor_scale_factor (gtk_widget_get_screen (widget), 0);
 }
 
 /**
