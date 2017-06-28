@@ -1055,6 +1055,7 @@ GdkVisual*   gtk_widget_get_visual	(GtkWidget	*widget);
 
 GdkScreen *   gtk_widget_get_screen      (GtkWidget *widget);
 gboolean      gtk_widget_has_screen      (GtkWidget *widget);
+gdouble       gtk_widget_get_scale_factor (GtkWidget *widget);
 GdkDisplay *  gtk_widget_get_display     (GtkWidget *widget);
 GdkWindow *   gtk_widget_get_root_window (GtkWidget *widget);
 GtkSettings*  gtk_widget_get_settings    (GtkWidget *widget);
@@ -1193,6 +1194,11 @@ GdkPixbuf    *gtk_widget_render_icon          (GtkWidget   *widget,
                                                const gchar *stock_id,
                                                GtkIconSize  size,
                                                const gchar *detail);
+GdkPixbuf    *gtk_widget_render_icon_scaled   (GtkWidget      *widget,
+                                               const gchar    *stock_id,
+                                               GtkIconSize     size,
+                                               const gchar    *detail,
+                                               gdouble        *real_scale);
 
 /* handle composite names for GTK_COMPOSITE_CHILD widgets,
  * the returned name is newly allocated.
