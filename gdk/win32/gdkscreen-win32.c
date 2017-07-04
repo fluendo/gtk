@@ -182,3 +182,12 @@ gdk_screen_is_composited (GdkScreen *screen)
 
   return FALSE;
 }
+
+gdouble
+gdk_screen_get_monitor_scale_factor (GdkScreen *screen,
+                                     gint       monitor_num)
+{
+  g_return_val_if_fail (GDK_IS_SCREEN (screen), 1);
+
+  return 1;
+}
