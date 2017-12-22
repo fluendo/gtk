@@ -574,7 +574,10 @@ gtk_event_box_expose (GtkWidget      *widget,
 {
   if (gtk_widget_is_drawable (widget))
     {
-      if (gtk_widget_get_has_window (widget))
+  // HACK: Let the event box draw itself even with visible_window set to FALSE
+  // so that engines like Pixbuf can still draw a background and have
+  // transparency if the source image has alpha
+  //    if (gtk_widget_get_has_window (widget))
 	gtk_event_box_paint (widget, &event->area);
 
       GTK_WIDGET_CLASS (gtk_event_box_parent_class)->expose_event (widget, event);
