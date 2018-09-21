@@ -574,7 +574,6 @@ gtk_base_c_sources =            \
 	gtkscale.c		\
 	gtkscalebutton.c	\
 	gtkscrollbar.c		\
-	gtkscrolledwindow.c	\
 	gtkselection.c		\
 	gtkseparator.c		\
 	gtkseparatormenuitem.c	\
@@ -734,18 +733,21 @@ gtk_c_sources += $(gtk_os_win32_c_sources)
 endif
 
 gtk_use_x11_c_sources = \
+	gtkscrolledwindow.c \
 	gtkplug-x11.c   \
 	gtksocket-x11.c \
 	gtkxembed.c     \
 	gtktrayicon-x11.c \
 	gtkmountoperation-x11.c
 gtk_use_win32_c_sources = \
+	gtkscrolledwindow.c \
 	gtkplug-win32.c   \
 	gtksocket-win32.c \
 	gtkwin32embed.c   \
 	gtkwin32embedwidget.c \
 	gtkmountoperation-stub.c
 gtk_use_quartz_c_sources =	\
+	gtkscrolledwindow_quartz.c \
 	gtknsview.c		\
 	gtksearchenginequartz.c	\
 	gtkplug-stub.c		\
