@@ -27,6 +27,10 @@
 
 G_BEGIN_DECLS
 
+#ifdef nil
+#undef nil
+#endif
+
 
 typedef enum
 {

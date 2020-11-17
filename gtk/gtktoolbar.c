@@ -61,6 +61,13 @@
 
 typedef struct _ToolbarContent ToolbarContent;
 
+#ifdef NO
+#undef NO
+#endif
+#ifdef YES
+#undef YES
+#endif
+
 #define DEFAULT_IPADDING    0
 
 #define DEFAULT_SPACE_SIZE  12

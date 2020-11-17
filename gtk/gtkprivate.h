@@ -29,6 +29,10 @@
 
 #include <gtk/gtkwidget.h>
 
+#ifdef GDK_WINDOWING_QUARTZ
+#include "gdk/quartz/gdkquartz.h"
+#endif
+
 G_BEGIN_DECLS
 
 /* The private flags that are used in the private_flags member of GtkWidget.
