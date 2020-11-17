@@ -25,6 +25,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#include "gtkprivate.h"
 #include "gtkclipboard.h"
 #include "gtkinvisible.h"
 #include "gtkmain.h"
@@ -33,6 +34,13 @@
 #include "gtktextbuffer.h"
 #include "gtkquartz.h"
 #include "gtkalias.h"
+
+#ifdef NO
+#undef NO
+#endif
+#ifdef YES
+#undef YES
+#endif
 
 enum {
   OWNER_CHANGE,

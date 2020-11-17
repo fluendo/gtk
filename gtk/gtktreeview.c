@@ -46,6 +46,10 @@
 #include "gtkprivate.h"
 #include "gtkalias.h"
 
+#ifdef nil
+#undef nil
+#endif
+
 #define GTK_TREE_VIEW_PRIORITY_VALIDATE (GDK_PRIORITY_REDRAW + 5)
 #define GTK_TREE_VIEW_PRIORITY_SCROLL_SYNC (GTK_TREE_VIEW_PRIORITY_VALIDATE + 2)
 #define GTK_TREE_VIEW_TIME_MS_PER_IDLE 30

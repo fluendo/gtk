@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <math.h>
 #include "gtkiconfactory.h"
 #include "gtkiconcache.h"
 #include "gtkdebug.h"
