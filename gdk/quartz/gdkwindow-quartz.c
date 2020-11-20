@@ -369,6 +369,12 @@ gdk_window_impl_quartz_end_paint (GdkPaintable *paintable)
       gdk_region_destroy (impl->paint_clip_region);
       impl->paint_clip_region = NULL;
     }
+
+  // Starting with BigSur views are not currectly refreshed
+  // after the complete draw cycle.
+  // Flushing the NSWindow or setting NeedsDisplay only when
+  // end_paint is called outside in_process_all_update
+  [impl->view setNeedsDisplay: YES];
 }
 
 void
