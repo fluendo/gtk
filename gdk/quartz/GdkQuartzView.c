@@ -600,8 +600,22 @@
     return YES;
 
   /* A view is opaque if its GdkWindow doesn't have the RGBA colormap */
-  return gdk_drawable_get_colormap (gdk_window) !=
+  /* return gdk_drawable_get_colormap (gdk_window) !=
     gdk_screen_get_rgba_colormap (_gdk_screen);
+  */
+
+  /* Starting with BigSur, when isOpaque returns YES the NSView is not updated
+   * after the complete draw cycle.All draw operations are performed
+   * correctly from the point of view of GDK, but the NSView does not
+   * renders the new content, like if the back buffer was not flushed and
+   * swapped correctly. The NSView is only updated when hovering a window
+   * on top of it, for example. This can be reproduced with the pixbuf-demo demo,
+   * where the animation is updated only when hovering other windows on top of the
+   * application windows.
+   * Returning FALSE here seems to fix the issue.
+   */
+  return FALSE;
+
 }
 
 -(void)drawRect: (NSRect)rect
